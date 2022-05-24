@@ -15,7 +15,7 @@ abstract class Archetype {
   get special() { return this._special; }
   get cost() { return this._cost; }
 
-  public static createdRacesInstances(): number {
+  public static createdArchetypeInstances(): number {
     throw new Error('Not implemented');
   }
 

@@ -7,6 +7,7 @@ interface Fighter extends SimpleFighter {
 
   special(enemy: SimpleFighter): void;
   levelUp(): void;
+  kill?(): void;
 }
 
 export default Fighter;

@@ -10,18 +10,33 @@ class PVP extends Battle {
     this.player2 = player2;
   }
 
-  private static handleFirstPlayerToAttackWinner(firstPlayerToAttack: number) {
+  private handleWinnerAsFirstAttacker(
+    firstPlayerToAttack: number,
+    looped?: boolean,
+  ) {
+    if (looped) {
+      if (firstPlayerToAttack === 1) {
+        this.player2.kill?.();
+      } else {
+        this.player1.kill?.();
+      }
+    }
     return firstPlayerToAttack === 1 ? 1 : -1;
   }
 
   private attackRound(firstPlayerToAttack: number) {
     if (firstPlayerToAttack === 1) {
       this.player1.attack(this.player2);
+      if (this.player2.lifePoints === -1) return;
       this.player2.attack(this.player1);
-    } else {
-      this.player2.attack(this.player1);
-      this.player1.attack(this.player2);
+
+      return;
     }
+    // I couldn't put an else here because of cognitive complexity
+
+    this.player2.attack(this.player1);
+    if (this.player1.lifePoints === -1) return;
+    this.player1.attack(this.player2);
   }
 
   private checkFightLoop(initialLP: { p1: number, p2: number }, round: number) {
@@ -36,7 +51,7 @@ class PVP extends Battle {
 
   private getWinner(firstPlayerToAttack: number) {
     if (this.player1.lifePoints === -1 && this.player2.lifePoints === -1) {
-      return PVP.handleFirstPlayerToAttackWinner(firstPlayerToAttack);
+      return this.handleWinnerAsFirstAttacker(firstPlayerToAttack);
     }
     if (this.player1.lifePoints === -1) {
       return -1;
@@ -59,7 +74,7 @@ class PVP extends Battle {
       this.attackRound(firstPlayerToAttack);
 
       if (this.checkFightLoop(initialLifePoints, i)) {
-        winner = PVP.handleFirstPlayerToAttackWinner(firstPlayerToAttack);
+        winner = this.handleWinnerAsFirstAttacker(firstPlayerToAttack, true);
         break;
       }
     }

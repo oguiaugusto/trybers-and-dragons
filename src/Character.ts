@@ -82,6 +82,10 @@ class Character implements Fighter {
   public special(enemy: SimpleFighter) {
     enemy.receiveDamage(this.strength * 2);
   }
+
+  public kill() {
+    this._lifePoints = -1;
+  }
 }
 
 export default Character;

@@ -20,7 +20,7 @@ class Character implements Fighter {
     this._race = new Elf(name, 10);
     this._archetype = new Mage(name);
 
-    this._maxLifePoints = Math.floor(this._race.maxLifePoints / 2);
+    this._maxLifePoints = this._race.maxLifePoints / 2;
     this._lifePoints = this._maxLifePoints;
 
     this._strength = getRandomInt(1, 10);

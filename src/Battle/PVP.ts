@@ -35,7 +35,7 @@ class PVP extends Battle {
   }
 
   private getWinner(firstPlayerToAttack: number) {
-    if (this.player1.lifePoints === -1 && this.player2.lifePoints !== -1) {
+    if (this.player1.lifePoints === -1 && this.player2.lifePoints === -1) {
       return PVP.handleFirstPlayerToAttackWinner(firstPlayerToAttack);
     }
     if (this.player1.lifePoints === -1) {

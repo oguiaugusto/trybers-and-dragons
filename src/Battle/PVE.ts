@@ -17,8 +17,8 @@ class PVE extends Battle {
     return firstToAttack === 1 ? 1 : -1;
   }
 
-  private static getMonstersLifePoints(monsters: MonstersType) {
-    const lifePoints = monsters.reduce((totalLifePoints, monster) => (
+  private getMonstersLifePoints() {
+    const lifePoints = this.monsters.reduce((totalLifePoints, monster) => (
       totalLifePoints + monster.lifePoints
     ), 0);
 
@@ -43,7 +43,7 @@ class PVE extends Battle {
   private checkFightLoop(initialLP: { p: number, m: number }, round: number) {
     if (
       this.fighter.lifePoints === initialLP.p
-      && PVE.getMonstersLifePoints(this.monsters) === initialLP.m
+      && this.getMonstersLifePoints() === initialLP.m
       && round === 10
     ) {
       return true;
@@ -53,7 +53,7 @@ class PVE extends Battle {
   private getWinner(firstToAttack: number) {
     if (
       this.fighter.lifePoints === -1
-      && PVE.getMonstersLifePoints(this.monsters) === -1
+      && this.getMonstersLifePoints() === -1
     ) {
       return PVE.handleFirstToAttackWinner(firstToAttack);
     }
@@ -65,13 +65,12 @@ class PVE extends Battle {
 
   fight(): number {
     const playerAndMonstersCanFight = () => !(
-      this.fighter.lifePoints === -1 
-      || PVE.getMonstersLifePoints(this.monsters) === -1
+      this.fighter.lifePoints === -1 || this.getMonstersLifePoints() === -1
     );
     const firstToAttack = Math.round(Math.random()) + 1;
     const initialLifePoints = {
       p: this.fighter.lifePoints,
-      m: PVE.getMonstersLifePoints(this.monsters),
+      m: this.getMonstersLifePoints(),
     };
     let winner: undefined | number;
 
